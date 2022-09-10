@@ -5,7 +5,7 @@ import linkedlist as ll
 
 
 class TestSinglyLinkedList:
-    """Tests for use of class Linked List."""
+    """Tests for use of class LinkedList (singly)."""
 
     @pytest.fixture
     def datas(self):
@@ -45,6 +45,11 @@ class TestSinglyLinkedList:
         assert singly_linked_list.head.next.next.data == datas_to_insert[2]
 
     def test_insert_one_at_end(self, singly_linked_list):
+        """
+        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: "Insert At End"
+        Output: ["Item 1", "Item 2", "Item 3", "Item 4", "Insert At End"]
+        """
         data = "Insert At End"
         singly_linked_list.insert_at_end(data)
 
@@ -54,6 +59,11 @@ class TestSinglyLinkedList:
         assert last.data == data
 
     def test_insert_many_at_end(self, singly_linked_list):
+        """
+        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: ["Insert 1", "Insert 2", "Insert 3"]
+        Output: ["Item 1", "Item 2", "Item 3", "Item 4", "Insert 1", "Insert 2", "Insert 3"]
+        """
         datas_to_insert = ["Insert 1", "Insert 2", "Insert 3"]
 
         for i in singly_linked_list:
@@ -66,5 +76,13 @@ class TestSinglyLinkedList:
         assert current_last.next.next.next.data == datas_to_insert[2]
 
     def test_iterate_over_items(self, singly_linked_list, datas):
+        """
+        Test the 'for loop'. LinkedList class has it own iterator class.
+
+        With input:
+            datas = ["Item 1", "Item 2", "Item 3", "Item 4"]
+
+        Iterating over the linked list must yield same data.
+        """
         for i, j in zip_longest(singly_linked_list, datas):
             assert i.data == j
