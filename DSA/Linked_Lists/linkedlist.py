@@ -204,7 +204,11 @@ class LinkedList:
             self.head = new_list.head
 
     def insert_at_index(self, index: int, data):
+        """Append data to the end. Accept multiple datas at once.
 
+        Time Complexity: O(n) (for traversing to index of target node)
+        Space Complexity: O(1)
+        """
         last_index = len(self) - 1
         if index == 0:
             self.insert_at_beginning(data)
@@ -216,6 +220,7 @@ class LinkedList:
                 if node_index == index:
                     previous_node.next = new_node
                     new_node.next = node
+                    self.__increment_length()
                     return
                 previous_node = node
 
@@ -274,3 +279,5 @@ if __name__ == "__main__":
                                            "Item 4")
     single_linked_list.insert_at_index(4, "NEW iNSERT")
     print(single_linked_list)
+    print(len(single_linked_list))
+    print(len(a))

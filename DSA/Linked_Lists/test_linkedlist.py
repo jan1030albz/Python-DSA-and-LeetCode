@@ -109,6 +109,25 @@ class TestSinglyLinkedList:
         Input: singly_linked_list.remove_at_index(4),
                len(singly_linked_list)
         Output: 4
+
+        TEST 4
+        Initial: len(singly_linked_list) == 4
+        Input: singly_linked_list.insert_at_beginning("An Item"),
+               len(singly_linked_list)
+        Output: 5
+
+        TEST 5
+        Initial: len(singly_linked_list) == 4
+        Input: singly_linked_list.remove_at_index(0),
+               len(singly_linked_list)
+        Output: 4
+
+        TEST 6
+        Initial: len(singly_linked_list) == 4
+        Input: singly_linked_list.insert_at_index(2, "An Item"),
+               len(singly_linked_list)
+        Output: 5
+
         """
         # TEST 1
         initial_length = 4
@@ -121,6 +140,18 @@ class TestSinglyLinkedList:
         # TEST 3
         singly_linked_list.remove_at_index(4)
         assert len(singly_linked_list) == initial_length
+
+        # TEST 4
+        singly_linked_list.insert_at_beginning("An Item")
+        assert len(singly_linked_list) == initial_length + 1
+
+        # TEST 5
+        singly_linked_list.remove_at_index(0)
+        assert len(singly_linked_list) == initial_length
+
+        # TEST 6
+        singly_linked_list.insert_at_index(2, "An Item")
+        assert len(singly_linked_list) == initial_length + 1
 
     def test_remove_at_index(self, singly_linked_list: LinkedList):
         """
