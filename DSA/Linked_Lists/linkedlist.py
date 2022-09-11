@@ -16,11 +16,15 @@ Disadvantages:
         list.
     - Not cache friendly. Since array elements are contiguous locations, there
         is locality of reference which is not there in case of linked lists.
+
+    source: geekforgeeks.org
 """
 
 
 class LinkNode:
-    """A singly node class in a linked list."""
+    """
+    A singly node class in a linked list.
+    """
 
     def __init__(self, data, next_=None) -> None:
         self.data = data
@@ -31,9 +35,11 @@ class LinkNode:
 
 
 class LinkedListIterator:
-    """Iterator for LinkedList class."""
+    """
+    Iterator for LinkedList class.
+    """
 
-    def __init__(self, head):
+    def __init__(self, head: LinkNode):
         self.current = head
 
     def __iter__(self):
@@ -49,43 +55,117 @@ class LinkedListIterator:
 
 
 class LinkedList:
-    """A single linked list class that requires LinkNode class when adding
+    """
+    A single linked list class that requires LinkNode class when adding
     data to the list.
     """
 
     def __init__(self) -> None:
         self.head = None
         self._current = self.head
+        self._length = 0
 
     def __len__(self):
-        count = 0
-        node_iterable = self.head
-        while node_iterable.next:
-            node_iterable = node_iterable.next
-            count += 1
-        return count
+        # Time Complexity of O(1) as length is incremented/decremented
+        #   every time a node is added/removed.
+        return self._length
+
+    # # This is the previous len(), traversing and counting.
+    # # It is a bit expensive for a simple task so I changed implementation.
+    # def __len__(self):
+    #     # Time Complexity of O(n) for incrementing count.
+    #     count = 0
+    #     node_iterable = self.head
+    #     while node_iterable.next:
+    #         node_iterable = node_iterable.next
+    #         count += 1
+    #     return count
 
     def __iter__(self):
         return LinkedListIterator(self.head)
 
+    def __getitem__(self, index: int):
+        if not isinstance(index, int):
+            raise TypeError
+
+        if index > len(self):
+            raise IndexError("Index out of range")
+
+        for node_index, node in enumerate(self):
+            if node_index == index:
+                return node
+
+    def _increment_length(self):
+        self._length += 1
+
+    def _decrement_length(self):
+        self._length -= 1
+
     def insert_at_beginning(self, *datas):
+        """Insert data at the beginning. Accept multiple datas at once."""
         for data in reversed(datas):
             self.head = LinkNode(data, self.head)
+            self._increment_length()
 
     def insert_at_end(self, *datas):
+        """Append data to the end. Accept multiple datas at once.
+        
+        Time Complexity: O(n) (for traversing to last node)
+        Space Complexity: O(1)
+        """
+
+        # Time Complexity is O(n) for multiple datas (for very large data insertion).
+        # Create a linked list from datas.
         new_list = LinkedList()
         for i in reversed(datas):
             new_list.insert_at_beginning(i)
+            self._increment_length()
 
+        # Time Complexity is O(n) when getting the last node.
+        # Append only the head of the created linked list from
+        #   datas.
         node = self.head
+        # If current linked list has already a head, add the
+        #   linked list from datas to the end of the current
+        #   linked list.
         if node:
             while node.next:
                 node = node.next
+            # At the last node.
             node.next = new_list.head
+
+        # If current linked list is empty, set the head node of
+        #   the linked list from data as the current linked list's
+        #   head node.
         else:
             self.head = new_list.head
 
-    # Recursive method
+    def remove_at_index(self, index: int):
+        """
+        Remove item at index number.
+
+        Time Complexity: O(n) (for traversing and finding node)
+        Space Complexity: O(1)
+        """
+
+        if index > len(self):
+            raise IndexError("Index out of range.")
+        
+        if index == 0:
+            self.head = self.head.next
+            self._decrement_length()
+            return
+
+        previous_node = None
+        for node_index, node in enumerate(self):
+            if node_index == index:
+                previous_node.next = node.next
+                del node
+                self._decrement_length()
+                return
+            previous_node = node
+
+    # Recursive Method
     def print_linked_list(self):
 
         def traverse_print(node):
@@ -98,7 +178,7 @@ class LinkedList:
         else:
             traverse_print(self.head)
 
-    # While Loop
+    # 'While Loop' Method
     def print_linked_list2(self):
         if self.head is None:
             print("Empty Linked List")
@@ -112,7 +192,10 @@ class LinkedList:
 if __name__ == "__main__":
 
     single_linked_list = LinkedList()
-
+    print("Initial length", len(single_linked_list))
     single_linked_list.insert_at_beginning("START")
     single_linked_list.insert_at_end("APPENDED2", 1, 2, 3)
+    print("length", len(single_linked_list))
+    single_linked_list.remove_at_index(4)
+    print("length", len(single_linked_list))
     single_linked_list.print_linked_list()
