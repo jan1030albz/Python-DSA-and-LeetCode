@@ -63,6 +63,9 @@ class LinkedList:
     def __init__(self) -> None:
         self.head = None
         self._current = self.head
+
+        # Using len(self) will return this length
+        # Every add/removal of nodes will its value.
         self._length = 0
 
     def __len__(self):
@@ -85,6 +88,13 @@ class LinkedList:
         return LinkedListIterator(self.head)
 
     def __getitem__(self, index: int):
+        index = self.__validate_index(index)
+
+        for node_index, node in enumerate(self):
+            if node_index == index:
+                return node.data
+
+    def __validate_index(self, index):
         if not isinstance(index, int):
             raise TypeError
 
@@ -94,9 +104,7 @@ class LinkedList:
         if index < 0:
             index = index + len(self)
 
-        for node_index, node in enumerate(self):
-            if node_index == index:
-                return node.data
+        return index
 
     def _increment_length(self):
         self._length += 1
@@ -151,9 +159,7 @@ class LinkedList:
         Time Complexity: O(n) (for traversing and finding node)
         Space Complexity: O(1)
         """
-
-        if index > len(self):
-            raise IndexError("Index out of range.")
+        index = self.__validate_index(index)  # pylint: disable=pointless-statement
 
         if index == 0:
             self.head = self.head.next
@@ -196,7 +202,5 @@ class LinkedList:
 if __name__ == "__main__":
 
     single_linked_list = LinkedList()
-    print("Initial length", len(single_linked_list))
     single_linked_list.insert_at_beginning("START")
     single_linked_list.insert_at_end("APPENDED2", 1, 2, 3)
-    single_linked_list[5]
