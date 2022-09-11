@@ -1,5 +1,7 @@
 # Python-DSA-and-LeetCode
 
+To be updated as I continue my courses and lessons. This is not a finished repository, and may still be not useable.
+
 This repository contains python source codes for common Data Structure and Algorithms, as well as a LeetCode problems and solutions.
 
 Do note that these are codes created with my own understanding of the problem.
