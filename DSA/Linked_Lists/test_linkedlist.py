@@ -101,3 +101,40 @@ class TestSinglyLinkedList:
         for i in singly_linked_list:
             # assert "Item 2" does not exist in the linked list
             assert i.data != data_to_remove
+            
+    def test_getitem_by_index(self, singly_linked_list: LinkedList):
+        """
+        TEST 1
+            Using positive index.
+            Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+            Input: singly_linked_list[1]
+            Output: "Item 2"
+        
+        TEST 2
+            Using negative index.
+            Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+            Input: singly_linked_list[-2]
+            Output: "Item 3"
+        """
+        # TEST 1
+        get_item_test_1 = "Item 2"
+        assert singly_linked_list[1] == get_item_test_1
+        get_item_test_2 = "Item 3"
+        assert singly_linked_list[-2] == get_item_test_2
+    
+    def test_getitem_exceptions(self, singly_linked_list: LinkedList):
+        # pylint: disable=pointless-statement
+        """
+        TEST 1
+        Initial: len(singly_linked_list) == 4
+        Input: singly_linked_list[4]
+        Output: Exception: IndexError
+        """
+        out_of_range_index_test_1 = 5
+        with pytest.raises(IndexError):
+            singly_linked_list[out_of_range_index_test_1]
+        
+        out_of_range_index_test_2 = -5
+        with pytest.raises(IndexError):
+            singly_linked_list[out_of_range_index_test_2]
+            

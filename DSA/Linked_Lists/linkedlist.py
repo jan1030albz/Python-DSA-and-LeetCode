@@ -88,12 +88,15 @@ class LinkedList:
         if not isinstance(index, int):
             raise TypeError
 
-        if index > len(self):
+        if abs(index) >= len(self):
             raise IndexError("Index out of range")
+
+        if index < 0:
+            index = index + len(self)
 
         for node_index, node in enumerate(self):
             if node_index == index:
-                return node
+                return node.data
 
     def _increment_length(self):
         self._length += 1
@@ -109,12 +112,13 @@ class LinkedList:
 
     def insert_at_end(self, *datas):
         """Append data to the end. Accept multiple datas at once.
-        
+
         Time Complexity: O(n) (for traversing to last node)
         Space Complexity: O(1)
         """
 
-        # Time Complexity is O(n) for multiple datas (for very large data insertion).
+        # Time Complexity is O(n) for multiple datas (for very large data
+        #   insertion).
         # Create a linked list from datas.
         new_list = LinkedList()
         for i in reversed(datas):
@@ -150,7 +154,7 @@ class LinkedList:
 
         if index > len(self):
             raise IndexError("Index out of range.")
-        
+
         if index == 0:
             self.head = self.head.next
             self._decrement_length()
@@ -195,7 +199,4 @@ if __name__ == "__main__":
     print("Initial length", len(single_linked_list))
     single_linked_list.insert_at_beginning("START")
     single_linked_list.insert_at_end("APPENDED2", 1, 2, 3)
-    print("length", len(single_linked_list))
-    single_linked_list.remove_at_index(4)
-    print("length", len(single_linked_list))
-    single_linked_list.print_linked_list()
+    single_linked_list[5]
