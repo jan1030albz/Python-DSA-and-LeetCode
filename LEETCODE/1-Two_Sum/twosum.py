@@ -4,7 +4,6 @@ You may assume that each input would have exactly one solution, and you may
 not use the same element twice.
 You can return the answer in any order."""
 
-from operator import index
 from typing import List
 
 # Example Inputs
@@ -57,15 +56,3 @@ def hm_two_sum(nums: List[int], target: int) -> List[int]:
         if remaining in seen:
             return [i, seen[remaining]]
         seen[value] = i
-
-
-def bs_two_sum(nums: List[int], target: int) -> List[int]:
-    """Takes alot of time for very large inputs:
-    O(nb)
-    O(1)
-    """
-    map_iterated = {}
-    for index_, number in enumerate(nums):
-        if number < target:
-            map_iterated[index_] = number
-     
