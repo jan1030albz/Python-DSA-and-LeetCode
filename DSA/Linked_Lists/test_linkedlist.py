@@ -24,9 +24,9 @@ class TestSinglyLinkedList:
 
     def test_insert_one_at_beginning(self, singly_linked_list: ll.LinkedList):
         """
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.insert_at_beginning("Insert At Beginning")
-        Output: ["Insert At Beginning", "Item 1", "Item 2", "Item 3", "Item 4"]
+        Output: LinkedList["Insert At Beginning", "Item 1", "Item 2", "Item 3", "Item 4"]
         """
         data_to_insert = "Insert At Beginning"
 
@@ -35,9 +35,9 @@ class TestSinglyLinkedList:
 
     def test_insert_many_at_beginning(self, singly_linked_list: ll.LinkedList):
         """
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.insert_at_beginning("Insert 1", "Insert 2", "Insert 3")
-        Output: ["Insert 1", "Insert 2", "Insert 3", "Item 1", "Item 2", "Item 3", "Item 4"]
+        Output: LinkedList["Insert 1", "Insert 2", "Insert 3", "Item 1", "Item 2", "Item 3", "Item 4"]
         """
         datas_to_insert = ["Insert 1", "Insert 2", "Insert 3"]
 
@@ -48,9 +48,9 @@ class TestSinglyLinkedList:
 
     def test_insert_one_at_end(self, singly_linked_list: ll.LinkedList):
         """
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.insert_at_end("Insert At End")
-        Output: ["Item 1", "Item 2", "Item 3", "Item 4", "Insert At End"]
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4", "Insert At End"]
         """
         data = "Insert At End"
         singly_linked_list.insert_at_end(data)
@@ -62,9 +62,9 @@ class TestSinglyLinkedList:
 
     def test_insert_many_at_end(self, singly_linked_list: ll.LinkedList):
         """
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.insert_at_end("Insert 1", "Insert 2", "Insert 3")
-        Output: ["Item 1", "Item 2", "Item 3", "Item 4", "Insert 1", "Insert 2", "Insert 3"]
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4", "Insert 1", "Insert 2", "Insert 3"]
         """
         datas_to_insert = ["Insert 1", "Insert 2", "Insert 3"]
 
@@ -123,9 +123,9 @@ class TestSinglyLinkedList:
 
     def test_remove_at_index(self, singly_linked_list: LinkedList):
         """
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.remove_at_index(1)
-        Output: ["Item 1", "Item 3", "Item 4"]
+        Output: LinkedList["Item 1", "Item 3", "Item 4"]
         """
         data_to_remove = "Item 2"
         singly_linked_list.remove_at_index(1)
@@ -133,15 +133,15 @@ class TestSinglyLinkedList:
             # assert "Item 2" does not exist in the linked list
             assert i.data != data_to_remove
 
-    def test_remove_at_index_exception(self, singly_linked_list: LinkedList):
+    def test_remove_at_index_exceptions(self, singly_linked_list: LinkedList):
         """
         TEST 1
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.remove_at_index(4)
         Output: Exception: IndexError
 
         TEST 2
-        Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
         Input: singly_linked_list.remove_at_index(-5)
         Output: Exception: IndexError
         """
@@ -157,13 +157,13 @@ class TestSinglyLinkedList:
         """
         TEST 1
             Using positive index.
-            Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+            Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
             Input: singly_linked_list[1]
             Output: "Item 2"
-        
+
         TEST 2
             Using negative index.
-            Initial: ["Item 1", "Item 2", "Item 3", "Item 4"]
+            Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
             Input: singly_linked_list[-2]
             Output: "Item 3"
         """
@@ -175,7 +175,7 @@ class TestSinglyLinkedList:
         get_item_test_2 = "Item 3"
         assert singly_linked_list[-2] == get_item_test_2
 
-    def test_getitem_exceptions(self, singly_linked_list: LinkedList):
+    def test_getitem_by_index_exceptions(self, singly_linked_list: LinkedList):
         # pylint: disable=pointless-statement
         """
         TEST 1
@@ -197,3 +197,82 @@ class TestSinglyLinkedList:
         out_of_range_index_test_2 = -5
         with pytest.raises(IndexError):
             singly_linked_list[out_of_range_index_test_2]
+
+    def test_slice_linked_list(self, singly_linked_list: LinkedList, datas):
+        """
+        TEST 1
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[1:3]
+        Output: LinkedList["Item 2", "Item 3"]
+
+        TEST 2
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[0:2]
+        Output: LinkedList["Item 1", "Item 2"]
+        
+        TEST 3
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[:2]
+        Output: LinkedList["Item 1", "Item 2"]
+
+        TEST 4
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[2:]
+        Output: LinkedList["Item 1", "Item 2"]
+        """
+        # TEST 1 - If slice start and stop is between 0 and length of linked list.
+        linkedlist_data_test_1 = ["Item 2", "Item 3"]
+        assert [i.data
+                for i in singly_linked_list[1:3]] == linkedlist_data_test_1
+
+        # TEST 2 - If slice stop is within length of linked list.
+        linkedlist_data_test_2 = ["Item 1", "Item 2"]
+        assert [i.data
+                for i in singly_linked_list[0:2]] == linkedlist_data_test_2
+
+        # TEST 3 - If slice start is not passed.
+        linkedlist_data_test_3 = ["Item 1", "Item 2"]
+        assert [i.data
+                for i in singly_linked_list[:2]] == linkedlist_data_test_3
+
+        # TEST 4 - If slice stop is not passed.
+        linkedlist_data_test_4 = ["Item 3", "Item 4"]
+        assert [i.data
+                for i in singly_linked_list[2:]] == linkedlist_data_test_4
+
+        
+
+    def test_slice_linked_list_2(self, singly_linked_list: LinkedList, datas):
+        """
+        TEST 5
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[0:4]
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+
+        TEST 6
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[0:5]
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+
+        TEST 7
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[:]
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+
+        TEST 8
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list[0:0]
+        Output: LinkedList[]
+        """
+
+        # TEST 5 - If explicit slice start = 0 and stop = length of linked list.
+        assert [i.data for i in singly_linked_list[0:4]] == datas
+
+        # TEST 6 - If explicit slice start = 0 and stop > length of linked list.
+        assert [i.data for i in singly_linked_list[0:5]] == datas
+
+        # TEST 7 - If explicit slice start = 0 and stop > length of linked list.
+        assert [i.data for i in singly_linked_list[:]] == datas
+
+        # TEST 8 - If explicit slice start = 0 and stop > length of linked list.
+        assert [i.data for i in singly_linked_list[0:0]] == []

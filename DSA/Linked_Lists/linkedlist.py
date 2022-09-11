@@ -1,3 +1,7 @@
+# Thank you for the knowledge. https://www.youtube.com/c/codebasics
+#   on the video at https://www.youtube.com/watch?v=qp8u-frRAnU&t=696s
+#
+# As well as https://www.geekforgeeks.org
 """
 Definition: Like arrays, Linked List is a linear data structure. Unlike
     arrays, linked list elements are not stored at a contiguous location;
@@ -17,8 +21,9 @@ Disadvantages:
     - Not cache friendly. Since array elements are contiguous locations, there
         is locality of reference which is not there in case of linked lists.
 
-    source: geekforgeeks.org
+    source: https://www.geeksforgeeks.org/data-structures/linked-list/
 """
+from copy import deepcopy
 
 
 class LinkNode:
@@ -62,7 +67,6 @@ class LinkedList:
 
     def __init__(self) -> None:
         self.head = None
-        self._current = self.head
 
         # Using len(self) will return this length
         # Every add/removal of nodes will its value.
@@ -87,16 +91,62 @@ class LinkedList:
     def __iter__(self):
         return LinkedListIterator(self.head)
 
-    def __getitem__(self, index: int):
-        index = self.__validate_index(index)
+    def __str__(self):
+        return f"LinkedList{[i.data for i in self]}"
 
-        for node_index, node in enumerate(self):
-            if node_index == index:
-                return node.data
+    def __getitem__(self, indexorslice):
+        if isinstance(indexorslice, slice):
+            start, stop = self.__validate_slice(indexorslice)
+
+            new_list = LinkedList()
+
+            if start == stop:
+                return new_list
+
+            previous_node = None
+
+            for node_index, node in enumerate(self):
+
+                if node_index == start:
+                    new_list.head = deepcopy(node)
+                    previous_node = new_list.head
+                    continue
+
+                elif node_index == stop:
+                    previous_node.next = None
+                    return new_list
+
+                elif node_index == len(self) - 1:
+                    return new_list
+
+                else:
+                    if previous_node:
+                        deep_copy_node = deepcopy(node)
+                        previous_node.next = deep_copy_node
+                        previous_node = previous_node.next
+
+                    else:
+                        continue
+
+        elif isinstance(indexorslice, int):
+            indexorslice = self.__validate_index(indexorslice)
+
+            for node_index, node in enumerate(self):
+                if node_index == indexorslice:
+                    return node.data
+
+        else:
+            raise TypeError("Use slice or int types only.")
+
+    def __validate_slice(self, slice_):
+        """Validate slice if start and/or stop is None."""
+        start = slice_.start if slice_.start is not None else 0
+        stop = slice_.stop if slice_.stop is not None else len(self)
+        return start, stop
 
     def __validate_index(self, index):
         if not isinstance(index, int):
-            raise TypeError
+            raise TypeError("Integers only.")
 
         if abs(index) >= len(self):
             raise IndexError("Index out of range")
@@ -106,17 +156,21 @@ class LinkedList:
 
         return index
 
-    def _increment_length(self):
+    def __increment_length(self):
         self._length += 1
 
-    def _decrement_length(self):
+    def __decrement_length(self):
         self._length -= 1
 
     def insert_at_beginning(self, *datas):
-        """Insert data at the beginning. Accept multiple datas at once."""
+        """Insert data at the beginning. Accept multiple datas at once.
+
+        Time Complexity: O(1)
+        Space Complexity: O(1)
+        """
         for data in reversed(datas):
             self.head = LinkNode(data, self.head)
-            self._increment_length()
+            self.__increment_length()
 
     def insert_at_end(self, *datas):
         """Append data to the end. Accept multiple datas at once.
@@ -131,7 +185,7 @@ class LinkedList:
         new_list = LinkedList()
         for i in reversed(datas):
             new_list.insert_at_beginning(i)
-            self._increment_length()
+            self.__increment_length()
 
         # Time Complexity is O(n) when getting the last node.
         # Append only the head of the created linked list from
@@ -152,6 +206,10 @@ class LinkedList:
         else:
             self.head = new_list.head
 
+    def insert_at_index(self, index: int):
+        # TODO Insert at index to be implemented
+        pass
+
     def remove_at_index(self, index: int):
         """
         Remove item at index number.
@@ -163,15 +221,14 @@ class LinkedList:
 
         if index == 0:
             self.head = self.head.next
-            self._decrement_length()
+            self.__decrement_length()
             return
 
         previous_node = None
         for node_index, node in enumerate(self):
             if node_index == index:
                 previous_node.next = node.next
-                del node
-                self._decrement_length()
+                self.__decrement_length()
                 return
             previous_node = node
 
@@ -201,6 +258,9 @@ class LinkedList:
 
 if __name__ == "__main__":
 
+    a = LinkedList()
+
     single_linked_list = LinkedList()
-    single_linked_list.insert_at_beginning("START")
-    single_linked_list.insert_at_end("APPENDED2", 1, 2, 3)
+    single_linked_list.insert_at_beginning("Item 1", "Item 2", "Item 3",
+                                           "Item 4")
+    print(single_linked_list[1:3])
