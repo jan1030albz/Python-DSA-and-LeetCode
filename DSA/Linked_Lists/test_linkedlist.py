@@ -1,3 +1,4 @@
+"""Tests for singly linked lists"""
 from itertools import zip_longest
 import pytest
 
@@ -198,7 +199,7 @@ class TestSinglyLinkedList:
         with pytest.raises(IndexError):
             singly_linked_list[out_of_range_index_test_2]
 
-    def test_slice_linked_list(self, singly_linked_list: LinkedList, datas):
+    def test_slice_linked_list(self, singly_linked_list: LinkedList):
         """
         TEST 1
         Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
@@ -240,8 +241,6 @@ class TestSinglyLinkedList:
         assert [i.data
                 for i in singly_linked_list[2:]] == linkedlist_data_test_4
 
-        
-
     def test_slice_linked_list_2(self, singly_linked_list: LinkedList, datas):
         """
         TEST 5
@@ -276,3 +275,47 @@ class TestSinglyLinkedList:
 
         # TEST 8 - If explicit slice start = 0 and stop > length of linked list.
         assert [i.data for i in singly_linked_list[0:0]] == []
+
+    def test_insert_at_index(self, singly_linked_list: ll.LinkedList):
+        """
+        TEST 1
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list.insert_at_index(0, "Inserted Item")
+        Output: LinkedList["Inserted Item", "Item 1", "Item 2", "Item 3", "Item 4"]
+
+        TEST 2
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list.insert_at_index(4, "Inserted Item")
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4", "Inserted Item"]
+
+        TEST 3
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list.insert_at_index(5, "Inserted Item")
+        Output: LinkedList["Item 1", "Item 2", "Item 3", "Item 4", "Inserted Item"]
+
+        TEST 4
+        Initial: LinkedList["Item 1", "Item 2", "Item 3", "Item 4"]
+        Input: singly_linked_list.insert_at_index(2, "Inserted Item")
+        Output: LinkedList["Item 1", "Item 2", "Inserted Item", "Item 3", "Item 4"]
+        """
+        data_to_insert = "Inserted Item"
+
+        # TEST 1 - If inserted at index 0 (beginning).
+        singly_linked_list.insert_at_index(0, data_to_insert)
+        assert singly_linked_list[0] == data_to_insert
+        singly_linked_list.remove_at_index(0)
+
+        # TEST 2 - If inserted at index 4 (last).
+        singly_linked_list.insert_at_index(4, data_to_insert)
+        assert singly_linked_list[4] == data_to_insert
+        singly_linked_list.remove_at_index(4)
+
+        # TEST 3 - If inserted at index 5 (greater than length of linked list).
+        singly_linked_list.insert_at_index(5, data_to_insert)
+        assert singly_linked_list[4] == data_to_insert
+        singly_linked_list.remove_at_index(4)
+
+        # TEST 3 - If inserted at index 5 (greater than length of linked list).
+        singly_linked_list.insert_at_index(2, data_to_insert)
+        assert singly_linked_list[2] == data_to_insert
+        singly_linked_list.remove_at_index(2)

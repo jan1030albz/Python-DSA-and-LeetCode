@@ -94,9 +94,9 @@ class LinkedList:
     def __str__(self):
         return f"LinkedList{[i.data for i in self]}"
 
-    def __getitem__(self, indexorslice):
-        if isinstance(indexorslice, slice):
-            start, stop = self.__validate_slice(indexorslice)
+    def __getitem__(self, index_or_slice):
+        if isinstance(index_or_slice, slice):
+            start, stop = self.__validate_slice(index_or_slice)
 
             new_list = LinkedList()
 
@@ -125,14 +125,11 @@ class LinkedList:
                         previous_node.next = deep_copy_node
                         previous_node = previous_node.next
 
-                    else:
-                        continue
-
-        elif isinstance(indexorslice, int):
-            indexorslice = self.__validate_index(indexorslice)
+        elif isinstance(index_or_slice, int):
+            index_or_slice = self.__validate_index(index_or_slice)
 
             for node_index, node in enumerate(self):
-                if node_index == indexorslice:
+                if node_index == index_or_slice:
                     return node.data
 
         else:
@@ -206,9 +203,21 @@ class LinkedList:
         else:
             self.head = new_list.head
 
-    def insert_at_index(self, index: int):
-        # TODO Insert at index to be implemented
-        pass
+    def insert_at_index(self, index: int, data):
+
+        last_index = len(self) - 1
+        if index == 0:
+            self.insert_at_beginning(data)
+        elif index >= last_index:
+            self.insert_at_end(data)
+        else:
+            new_node = LinkNode(data)
+            for node_index, node in enumerate(self):
+                if node_index == index:
+                    previous_node.next = new_node
+                    new_node.next = node
+                    return
+                previous_node = node
 
     def remove_at_index(self, index: int):
         """
@@ -263,4 +272,5 @@ if __name__ == "__main__":
     single_linked_list = LinkedList()
     single_linked_list.insert_at_beginning("Item 1", "Item 2", "Item 3",
                                            "Item 4")
-    print(single_linked_list[1:3])
+    single_linked_list.insert_at_index(4, "NEW iNSERT")
+    print(single_linked_list)
